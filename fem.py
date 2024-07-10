@@ -14,7 +14,7 @@ import torch
 
 # Create mesh and define function space
 
-nx = ny = 10
+nx = ny = 15
 
 mesh = RectangleMesh(Point(-1, -1), Point(1, 1), nx, ny)
 

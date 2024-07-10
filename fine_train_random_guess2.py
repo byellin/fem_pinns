@@ -435,24 +435,32 @@ from matplotlib.colors import Normalize
 fig, axs = plt.subplots(1, 3, figsize=(15, 5), gridspec_kw={'width_ratios': [1,1,1]})
 
 # Plot 1: Fine Trained Model Prediction on Fine Data
-im1=axs[0].imshow(Z[:,0].detach().numpy().reshape((int(Z[:,0].shape[0]**.5), int(Z[:,0].shape[0]**.5))))
-axs[0].set_title("Fine Trained Model Prediction on Fine Data",fontsize=10)
-# cbar_ax1 = fig.add_axes([0.1, 0.15, 0.02, 0.7])
-fig.colorbar(plt.imshow(Z[:,0].detach().numpy().reshape((11, 11)), ax=axs[0], norm=norm,pad=0.2, shrink=0.6))
+
+# Display the image using imshow on axs[0]
+im1 = axs[0].imshow(Z[:, 0].detach().numpy().reshape((int(Z[:, 0].shape[0]**0.5), int(Z[:, 0].shape[0]**0.5))))
+axs[0].set_title("Fine Trained Model Prediction on Fine Data", fontsize=10)
+
+# Add a colorbar to the figure
+fig.colorbar(im1, ax=axs[0], pad=0.2, shrink=0.6, norm=norm)
+#
+# im1=axs[0].imshow(Z[:,0].detach().numpy().reshape((int(Z[:,0].shape[0]**.5), int(Z[:,0].shape[0]**.5))))
+# axs[0].set_title("Fine Trained Model Prediction on Fine Data",fontsize=10)
+# # cbar_ax1 = fig.add_axes([0.1, 0.15, 0.02, 0.7])
+# fig.colorbar(plt.imshow(Z[:,0].detach().numpy().reshape((11, 11)), ax=axs[0], norm=norm,pad=0.2, shrink=0.6))
 
 # fig.colorbar(plt.imshow(Z[:,0].detach().numpy().reshape((11,11)), ax=axs[0], norm=norm,pad=0.2, shrink=0.6))
 
 # Plot 2: True solution on Training data
-im2=axs[1].imshow(samples_u_grid, extent=(fine_train_data_x_with_bdd.min(), fine_train_data_x_with_bdd.max(), fine_train_data_y_with_bdd.min(), fine_train_data_y_with_bdd.max()), cmap='viridis')
+im2=axs[1].imshow(samples_u_grid.detach().numpy(), extent=(fine_train_data_x_with_bdd.min(), fine_train_data_x_with_bdd.max(), fine_train_data_y_with_bdd.min(), fine_train_data_y_with_bdd.max()), cmap='viridis')
 axs[1].set_title("True solution on Training data",fontsize=10)
 # cbar_ax2 = fig.add_axes([0.45, 0.15, 0.02, 0.7])
-fig.colorbar(plt.imshow(samples_u_grid, cmap='viridis'), ax=axs[1], norm=norm,pad=0.2, shrink=0.6)
+fig.colorbar(plt.imshow(samples_u_grid.detach().numpy(), cmap='viridis'), ax=axs[1], norm=norm,pad=0.2, shrink=0.6)
 
 # Plot 3: Difference between model and true solution
-axs[2].imshow(Z[:,0].detach().numpy().reshape((100, 100)) - np.asarray(samples_u_grid))
+axs[2].imshow(Z[:,0].detach().numpy().reshape((nx+1, ny+1)) - samples_u_grid.detach().numpy())
 axs[2].set_title("Difference between model and true solution",fontsize=10)
 # cbar_ax3 = fig.add_axes([1.2, 0.15, 0.02, 0.7])
-fig.colorbar(plt.imshow(Z[:,0].detach().numpy().reshape((11, 11)) - np.asarray(samples_u_grid)), ax=axs[2], norm=norm,pad=0.2, shrink=0.6)
+fig.colorbar(plt.imshow(Z[:,0].detach().numpy().reshape((nx+1, ny+1)) - samples_u_grid.detach().numpy()), ax=axs[2], norm=norm,pad=0.2, shrink=0.6)
 
 plt.tight_layout()
 # plt.show()
